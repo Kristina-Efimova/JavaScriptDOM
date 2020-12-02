@@ -42,7 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //Timer
 
-    const deadline = '2020-11-08';
+    const deadline = '2020-12-31';
 
     function getTimeRemaining(endtime) {
         let t = Date.parse(endtime) - Date.parse(Date()),
@@ -100,8 +100,7 @@ window.addEventListener('DOMContentLoaded', () => {
     //Modal
 
     let modal = document.querySelector('.modal'),
-        modalTrigger = document.querySelectorAll('[data-modal]'),
-        modalCloseBtn = document.querySelector('[data-close]');
+        modalTrigger = document.querySelectorAll('[data-modal]');
 
     modalTrigger.forEach(btn => {
         btn.addEventListener('click', openModal);
@@ -120,10 +119,8 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
     }
 
-    modalCloseBtn.addEventListener('click', closeModal);
-
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        if (e.target === modal || e.target.getAttribute('data-close') === '') {
             closeModal();
         }
     });
@@ -134,7 +131,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    let modalTimerId = setTimeout(openModal, 5000);
+    let modalTimerId = setTimeout(openModal, 50000);
 
     function showModalByScroll() {
         if ((window.pageYOffset + document.documentElement.clientHeight) >= document.documentElement.scrollHeight) {
@@ -199,7 +196,7 @@ window.addEventListener('DOMContentLoaded', () => {
         "elite",
         'Меню "Премиум"',
         'В меню "Премиум" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. ' +
-              'Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+        'Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
         15,
         '.menu .container'
     ).render();
@@ -210,12 +207,11 @@ window.addEventListener('DOMContentLoaded', () => {
         "post",
         'Меню "Постное"',
         'Меню "Постное" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения,' +
-              'молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных ' +
-              'вегетарианских стейков.',
+        'молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных ' +
+        'вегетарианских стейков.',
         13,
         '.menu .container'
     ).render();
-
 
 
     // Forms
@@ -223,23 +219,26 @@ window.addEventListener('DOMContentLoaded', () => {
     let forms = document.querySelectorAll('form');
 
     let message = {
-        loading: 'Загрузка',
+        loading: 'img/spinner.svg',
         success: 'Спасибо! Скоро мы с вами свяжемся',
         failure: 'Что-то пошло не так...'
     }
 
-    forms.forEach(item =>{
-        postDate(item) ;
+    forms.forEach(item => {
+        postDate(item);
     });
 
     function postDate(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            let statusMessage = document.createElement('div');
-            statusMessage.classList.add('status');
-            statusMessage.textContent = message.loading;
-            form.append(statusMessage);
+            let statusMessage = document.createElement('img');
+            statusMessage.src = message.loading;
+            statusMessage.style.cssText = `
+                display: block;
+                margin: 0 auto;
+            `;
+            form.insertAdjacentElement('afterend', statusMessage);
 
             const request = new XMLHttpRequest();
             request.open('POST', 'server.php');
@@ -248,8 +247,8 @@ window.addEventListener('DOMContentLoaded', () => {
             let formData = new FormData(form);
 
             let object = {};
-            formData.forEach(function(value, key){
-               object[key] = value;
+            formData.forEach(function (value, key) {
+                object[key] = value;
             });
 
             let json = JSON.stringify(object);
@@ -258,17 +257,42 @@ window.addEventListener('DOMContentLoaded', () => {
             request.addEventListener('load', () => {
                 if (request.status === 200) {
                     console.log(request.response);
-                    statusMessage.textContent = message.success;
+                    showThanksModal(message.success);
                     form.reset();
-                    setTimeout(() =>{
-                        statusMessage.remove();
-                    }, 2000);
+                    statusMessage.remove();
                 } else {
-                    statusMessage.textContent = message.failure;
+                    showThanksModal(message.failure);
                 }
             })
         });
 
     }
+
+    function showThanksModal(message) {
+        let prevModalDialog = document.querySelector('.modal__dialog');
+
+        prevModalDialog.classList.add('hide');
+        openModal();
+
+        let thanksModal = document.createElement('div');
+        thanksModal.classList.add('modal__dialog');
+        thanksModal.innerHTML = `
+            <div class="modal__content">
+                <div data-close class="modal__close">&times;</div>
+                <div class="modal__title">${message}</div>
+            </div>
+          `;
+
+        document.querySelector('.modal').append(thanksModal);
+        setTimeout(() => {
+            thanksModal.remove();
+            prevModalDialog.classList.add('show');
+            prevModalDialog.classList.remove('hide');
+            closeModal();
+        }, 4000);
+
+
+    }
+
 
 })
