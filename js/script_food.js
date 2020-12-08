@@ -180,19 +180,27 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const getResource = async (url) => {
-        let res = await fetch(url)
+    // todo использование метода получения данных без использования библиотеки axios
+    // const getResource = async (url) => {
+    //     let res = await fetch(url)
+    //
+    //     if (!res.ok) {
+    //         throw new Error(`Cold not fetch ${url}, status: ${res.status}`)
+    //     }
+    //     return await res.json();
+    // };
+    // getResource("http://localhost:3000/menu")
+    //     .then(data => {
+    //         data.forEach(({img, altimg, title, descr, price}) => {
+    //             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+    //         });
+    //     });
 
-        if (!res.ok) {
-            throw new Error(`Cold not fetch ${url}, status: ${res.status}`)
-        }
-        return await res.json();
-    };
-
-    getResource("http://localhost:3000/menu")
+    axios.get('http://localhost:3000/menu')
         .then(data => {
-            data.forEach(({img, altimg, title, descr, price}) => {
+            data.data.forEach(({img, altimg, title, descr, price}) => {
                 new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+
             });
         });
 

@@ -160,9 +160,9 @@
                 Ваша конституция
             </div>
             <div class="calculating__choose calculating__choose_medium">
-                <input type="text" id="height" placeholder="Введите рост" class="calculating__choose-item">
-                <input type="text" id="weight" placeholder="Введите вес" class="calculating__choose-item">
-                <input type="text" id="age" placeholder="Введите возраст" class="calculating__choose-item">
+                <label for="height"></label><input type="text" id="height" placeholder="Введите рост" class="calculating__choose-item">
+                <label for="weight"></label><input type="text" id="weight" placeholder="Введите вес" class="calculating__choose-item">
+                <label for="age"></label><input type="text" id="age" placeholder="Введите возраст" class="calculating__choose-item">
             </div>
 
             <div class="calculating__subtitle">
@@ -244,8 +244,12 @@
     <div class="container">
         <div class="title">Заказывай пробный день прямо сейчас!</div>
         <form action="#" class="order__form">
-            <input required placeholder="Ваше имя" name="name" type="text" class="order__input">
-            <input required placeholder="Ваш номер телефона" name="phone" type="phone" class="order__input">
+            <label>
+                <input required placeholder="Ваше имя" name="name" type="text" class="order__input">
+            </label>
+            <label>
+                <input required placeholder="Ваш номер телефона" name="phone" type="tel" class="order__input">
+            </label>
             <img src="icons/right.svg" alt="right">
             <button class="btn btn_dark btn_min">Перезвонить мне</button>
         </form>
@@ -314,13 +318,18 @@
             <form action="#">
                 <div data-close class="modal__close">&times;</div>
                 <div class="modal__title">Мы свяжемся с вами как можно быстрее!</div>
-                <input required placeholder="Ваше имя" name="name" type="text" class="modal__input">
-                <input required placeholder="Ваш номер телефона" name="phone" type="phone" class="modal__input">
+                <label>
+                    <input required placeholder="Ваше имя" name="name" type="text" class="modal__input">
+                </label>
+                <label>
+                    <input required placeholder="Ваш номер телефона" name="phone" type="tel" class="modal__input">
+                </label>
                 <button class="btn btn_dark btn_min">Перезвонить мне</button>
             </form>
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="js/script_food.js"></script>
 </body>
 </html>
