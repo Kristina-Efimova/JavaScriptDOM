@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Kristina-Efimova/JavaScriptDOM#readme",
   "devDependencies": {
-    "json-server": "^0.16.3"
+    "json-server": "^0.16.3",
+    "webpack-cli": "^4.3.1"
   }
 }
