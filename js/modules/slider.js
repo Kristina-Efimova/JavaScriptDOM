@@ -1,10 +1,10 @@
-function slider() {
+function slider({ slide, nextArrow, prevArrow, totalCounter, currentCounter}) {
 
-    let slides = document.querySelectorAll('.offer__slide'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        total = document.querySelector('#total'),
-        current = document.querySelector('#current'),
+    let next = document.querySelector(nextArrow),
+        prev = document.querySelector(prevArrow),
+        slides = document.querySelectorAll(slide),
+        total = document.querySelector(totalCounter),
+        current = document.querySelector(currentCounter),
         slideIndex = 1;
 
     showSlides(slideIndex);
@@ -49,4 +49,4 @@ function slider() {
 
 }
 
-module.exports = slider;
+export default slider;
